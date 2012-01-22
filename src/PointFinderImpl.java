@@ -55,13 +55,7 @@ public class PointFinderImpl implements PointFinder {
         public int compare(Point p1, Point p2) {
             double distance1 = Point.getDistance(_start, p1);
             double distance2 = Point.getDistance(_start, p2);
-            if (distance1 < distance2) {
-                return -1;
-            } else if (distance1 == distance2) {
-                return 0;
-            } else {
-                return 1;
-            }
+            return Double.compare(distance1, distance2);
         }
     }
 }
