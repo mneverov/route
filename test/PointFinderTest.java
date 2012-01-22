@@ -56,7 +56,7 @@ public class PointFinderTest extends TestCase {
         pointsOutOfRoute.add(p1);
         PointFinder pointFinder = new PointFinderImpl(pointsOutOfRoute);
         List<Point> result = pointFinder.findPoints(route, Integer.MAX_VALUE);
-        assertTrue(Point.getDistance(point, result.get(0)) < Point.getDistance(point, result.get(1)));
+        assertTrue(point.distanceTo(result.get(0)) < point.distanceTo(result.get(1)));
     }
 
     public void test_not_return_duplicate_points() {

@@ -23,9 +23,13 @@ public class Point {
         return _longitude;
     }
 
-    public static double getDistance(Point a, Point b) {
+    public double distanceTo(Point p) {
+        return distanceBetween(this, p);
+    }
+
+    public static double distanceBetween(Point a, Point b) {
         double distance = 111.12 * Math.acos(Math.sin(a.getLatitude()) * Math.sin(b.getLatitude()) +
-                                             Math.cos(a.getLatitude()) * Math.cos(b.getLatitude()) * Math.cos(b.getLongitude() - b.getLongitude()));
+                Math.cos(a.getLatitude()) * Math.cos(b.getLatitude()) * Math.cos(b.getLongitude() - b.getLongitude()));
         return distance;
     }
 

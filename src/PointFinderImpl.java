@@ -22,10 +22,10 @@ public class PointFinderImpl implements PointFinder {
         return sortByDistance(pointsForRoute, route);
     }
 
-    private List<Point> findPoints(Point point, int distance) {
+    private List<Point> findPoints(Point point, int limit) {
         List<Point> result = new ArrayList<Point>();
         for (Point p : _points) {
-            if (Point.getDistance(point, p) < distance) {
+            if (point.distanceTo(p) < limit) {
                 result.add(p);
             }
         }
@@ -53,9 +53,7 @@ public class PointFinderImpl implements PointFinder {
         }
 
         public int compare(Point p1, Point p2) {
-            double distance1 = Point.getDistance(_start, p1);
-            double distance2 = Point.getDistance(_start, p2);
-            return Double.compare(distance1, distance2);
+            return Double.compare(_start.distanceTo(p1), _start.distanceTo(p2));
         }
     }
 }
