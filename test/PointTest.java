@@ -12,4 +12,10 @@ public class PointTest extends TestCase {
         assertEquals(point.getLongitude(), longitude);
         assertEquals(point.getId(), 1);
     }
+
+    public void test_distance() {
+        Point p1 = new Point(1, 82, 10);
+        Point p2 = new Point(2, 81, 10);
+        assertEquals(111195, Math.round(p1.distanceTo(p2)));
+    }
 }

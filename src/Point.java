@@ -1,3 +1,5 @@
+import static java.lang.Math.*;
+
 /**
  */
 public class Point {
@@ -28,8 +30,11 @@ public class Point {
     }
 
     public static double distanceBetween(Point a, Point b) {
-        double distance = 111.12 * Math.acos(Math.sin(a.getLatitude()) * Math.sin(b.getLatitude()) +
-                Math.cos(a.getLatitude()) * Math.cos(b.getLatitude()) * Math.cos(b.getLongitude() - b.getLongitude()));
+        double dLat = toRadians(b.getLatitude() - a.getLatitude());
+        double dLon = toRadians(b.getLongitude() - a.getLongitude());
+        double e = sin(dLat/2)*sin(dLat/2) + cos(toRadians(a.getLatitude())) * cos(toRadians(b.getLatitude())) * sin(dLon/2) * sin(dLon/2);
+        double c = 2 * asin(Math.sqrt(e));
+        double distance = 6371000 * c;
         return distance;
     }
 
