@@ -51,6 +51,10 @@ public class PointFinderTest extends TestCase {
         assertEquals(1, result.size());
     }
 
+    public void test_find_point2() {
+
+    }
+
     private Route createRoute(Point... points) {
         return new Route(routeId++, Arrays.asList(points));
     }

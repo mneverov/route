@@ -22,6 +22,8 @@ public class PointFinderImpl implements PointFinder {
         return sortByDistance(pointsForRoute, route);
     }
 
+
+
     private List<Point> findPoints(Point point, int limit) {
         List<Point> result = new ArrayList<Point>();
         for (Point p : _points) {
