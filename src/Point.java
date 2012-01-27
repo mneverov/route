@@ -1,12 +1,9 @@
-import static java.lang.Math.*;
-
 /**
  */
 public class Point {
     private final int _id;
     private final double _latitude;
     private final double _longitude;
-    private final static int EARTH_RADIUS = 6371000;
 
     public Point(int id, double latitude, double longitude){
         if (latitude <= -90 || latitude >= 90) {
@@ -37,47 +34,23 @@ public class Point {
     }
 
     public double distanceTo(Point p) {
-        return distanceBetween(this, p);
-    }
-
-    public static double distanceBetween(Point p1, Point p2) {
-        double dLat = toRadians(p2.getLatitude() - p1.getLatitude());
-        double dLon = toRadians(p2.getLongitude() - p1.getLongitude());
-        double e = sin(dLat/2)*sin(dLat/2) + cos(toRadians(p1.getLatitude())) * cos(toRadians(p2.getLatitude())) * sin(dLon/2) * sin(dLon/2);
-        double c = 2 * asin(Math.sqrt(e));
-        double distance = EARTH_RADIUS * c;
-        return distance;
+        return Geometry.distanceBetween(this, p);
     }
 
     public boolean isOnLine(Line line) {
-        return (line.getA() * _latitude + line.getB() * _longitude + line.getC()) == 0;
+        return Geometry.isOnLine(this, line);
     }
 
     public boolean isBetween(Line line1, Line line2) {
-        double y1 = 0 == line1.getB() ? line1.getC() : (-line1.getA() * _latitude - line1.getC()) / line1.getB();
-        double y2 = 0 == line2.getB() ? line2.getC() : (-line2.getA() * _latitude - line2.getC()) / line2.getB();
-        return y1 > _longitude && y2 < _longitude;
+        return Geometry.isBetween(this, line1, line2);
     }
 
     public double getBearingTo(Point p) {
-        double y = sin(toRadians(p._longitude - _longitude)) * cos(toRadians(p._latitude));
-        double x = cos(toRadians(_latitude)) * sin(toRadians(p._latitude)) -
-                sin(toRadians(_latitude)) * cos(toRadians(p._latitude)) * cos(toRadians(p._longitude - _longitude));
-        double bearing = toDegrees(atan2(y, x));
-        double normalizeBearing = (bearing + 360) % 360;
-        return normalizeBearing;
+        return Geometry.getBearingTo(this, p);
     }
 
     public Point getPointByBearingAndDistance(double bearing, double distance) {
-        double latitude = asin(sin(toRadians(_latitude)) * cos(distance / EARTH_RADIUS) +
-                       cos(toRadians(_latitude)) * sin(distance / EARTH_RADIUS) * cos(toRadians(bearing)));
-        double longitude = toRadians(_longitude) +
-                atan2(sin(toRadians(bearing)) * sin(distance / EARTH_RADIUS) * cos(toRadians(_latitude)),
-                        cos(distance / EARTH_RADIUS) - sin(toRadians(_latitude)) * sin(toRadians(latitude)));
-        double roundLat =   ((int)(toDegrees(latitude) * 1000000)) / 1000000.0;
-        double roundLong =   ((int)(toDegrees(longitude) * 1000000))/ 1000000.0;
-        Point result = new Point(roundLat, roundLong);
-        return result;
+        return Geometry.getPointByBearingAndDistance(this, bearing, distance);
     }
 
     @Override

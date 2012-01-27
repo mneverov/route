@@ -2,14 +2,15 @@
  *
  */
 public class Line {
-    private double _a;
-    private double _b;
-    private double _c;
+
+    private final double _a;
+    private final double _b;
+    private final double _c;
 
     public Line(Point start, Point end) {
-        _a = start.getLongitude() - end.getLongitude();
-        _b = end.getLatitude() - start.getLatitude();
-        _c = start.getLatitude() * end.getLongitude() - end.getLatitude() * start.getLongitude();
+        _a = start.getLatitude() - end.getLatitude();
+        _b = end.getLongitude() - start.getLongitude();
+        _c = start.getLongitude() * end.getLatitude() - end.getLongitude() * start.getLatitude();
     }
 
     public Line(double a, double b, double c) {
@@ -26,15 +27,15 @@ public class Line {
         return _b;
     }
 
-     public double getC() {
+    public double getC() {
         return _c;
     }
 
     public Line getParallelLine(Point point) {
-        return new Line(_a, _b, -(_a * point.getLatitude() + _b * point.getLongitude()));
+        return new Line(_a, _b, -(_a * point.getLongitude() + _b * point.getLatitude()));
     }
 
     public Line getPerpendicularLine(Point point) {
-        return new Line(_b, -_a, _a * point.getLongitude() - _b * point.getLatitude());
+        return new Line(_b, -_a, _a * point.getLatitude() - _b * point.getLongitude());
     }
 }

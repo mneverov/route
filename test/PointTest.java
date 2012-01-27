@@ -4,6 +4,7 @@ import junit.framework.TestCase;
  */
 
 public class PointTest extends TestCase {
+
     private static double longitude = 11.123456, latitude = 22.654321;
     private int pointId = 0;
 
@@ -28,8 +29,8 @@ public class PointTest extends TestCase {
 
     public void test_is_point_between_lines() {
         Point point = createPoint(0, 0);
-        Line line1 = new Line(createPoint(0, 5), createPoint(10, 5));
-        Line line2 = new Line(createPoint(0, -5), createPoint(10, -5));
+        Line line1 = new Line(createPoint(5, 0), createPoint(5, 5));
+        Line line2 = new Line(createPoint(-5, 0), createPoint(-5, 5));
         assertTrue(point.isBetween(line1, line2));
     }
 

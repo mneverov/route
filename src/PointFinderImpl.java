@@ -14,7 +14,7 @@ public class PointFinderImpl implements PointFinder {
         _points = points;
     }
 
-    public List<Point> findPoints(Route route, int width) {
+    public List<Point> findPoints2(Route route, int width) {
         Set<Point> pointsForRoute = new HashSet<Point>();
         for (Point p : route.getPoints()) {
             pointsForRoute.addAll(findPoints(p, width));
@@ -22,7 +22,27 @@ public class PointFinderImpl implements PointFinder {
         return sortByDistance(pointsForRoute, route);
     }
 
+    public List<Point> findPoints(Route route, int width) {
+        List<Point> points = route.getPoints();
+        if (points.isEmpty())
+            return Collections.emptyList();
+        if (points.size() == 1)
+            return Collections.emptyList();
 
+        Set<Point> pointsForRoute = new HashSet<Point>();
+        Point prevPoint = points.get(0);
+        for (int i = 1; i < points.size(); i++) {
+            Point curPoint = points.get(i);
+            DistanceLessThan predicate = new DistanceLessThan(prevPoint, curPoint, width);
+            for (Point p : _points) {
+                if (predicate.apply(p)) {
+                    pointsForRoute.add(p);
+                }
+            }
+            prevPoint = curPoint;
+        }
+        return sortByDistance(pointsForRoute, route);
+    }
 
     private List<Point> findPoints(Point point, int limit) {
         List<Point> result = new ArrayList<Point>();

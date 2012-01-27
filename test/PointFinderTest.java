@@ -7,7 +7,8 @@ import java.util.List;
  *
  */
 public class PointFinderTest extends TestCase {
-    private double latitude = 11.123456, longitude = 22.654321;
+
+    private double latitude = 0, longitude = 0;
     private int pointId = 0;
     private int routeId = 0;
 
@@ -52,7 +53,11 @@ public class PointFinderTest extends TestCase {
     }
 
     public void test_find_point2() {
-
+        Point pointOutOfRoute = createPoint(latitude+2, longitude + 1);
+        PointFinder finder = createFinder(pointOutOfRoute);
+        Route route = createRoute(createPoint(latitude-10, longitude-10), createPoint(latitude+10, longitude+10));
+        List<Point> result = finder.findPoints(route, (int)Geometry.distanceBetween(pointOutOfRoute, createPoint(latitude-11, longitude-11)));
+        assertTrue(result.contains(pointOutOfRoute));
     }
 
     private Route createRoute(Point... points) {
