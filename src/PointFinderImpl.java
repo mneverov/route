@@ -4,6 +4,7 @@ import java.util.*;
  *
  */
 public class PointFinderImpl implements PointFinder {
+
     private List<Point> _points;
 
     public PointFinderImpl() {
@@ -14,68 +15,54 @@ public class PointFinderImpl implements PointFinder {
         _points = points;
     }
 
-    public List<Point> findPoints2(Route route, int width) {
-        Set<Point> pointsForRoute = new HashSet<Point>();
-        for (Point p : route.getPoints()) {
-            pointsForRoute.addAll(findPoints(p, width));
-        }
-        return sortByDistance(pointsForRoute, route);
-    }
-
     public List<Point> findPoints(Route route, int width) {
         List<Point> points = route.getPoints();
-        if (points.isEmpty())
-            return Collections.emptyList();
-        if (points.size() == 1)
+        if (points.isEmpty() || points.size() == 1)
             return Collections.emptyList();
 
         Set<Point> pointsForRoute = new HashSet<Point>();
         Point prevPoint = points.get(0);
         for (int i = 1; i < points.size(); i++) {
             Point curPoint = points.get(i);
-            DistanceLessThan predicate = new DistanceLessThan(prevPoint, curPoint, width);
-            for (Point p : _points) {
-                if (predicate.apply(p)) {
-                    pointsForRoute.add(p);
-                }
-            }
+            pointsForRoute.addAll(pointsForSegment(prevPoint, curPoint, width));
             prevPoint = curPoint;
         }
-        return sortByDistance(pointsForRoute, route);
+        return new ArrayList<Point>(pointsForRoute);
     }
 
-    private List<Point> findPoints(Point point, int limit) {
-        List<Point> result = new ArrayList<Point>();
+    private List<Point> pointsForSegment(Point segmentStart, Point segmentFinish, int width) {
+        DistanceLessThan predicate = new DistanceLessThan(segmentStart, segmentFinish, width);
+        List<Point> pointForSegment = new ArrayList<Point>();
         for (Point p : _points) {
-            if (point.distanceTo(p) < limit) {
-                result.add(p);
-            }
+            if (predicate.apply(p))
+                pointForSegment.add(p);
         }
-        return result;
+        sortByProjectionDistance(segmentStart, segmentFinish, pointForSegment);
+        return pointForSegment;
     }
 
-    private List<Point> sortByDistance(Collection<Point> points, final Route route) {
-        List<Point> result = new ArrayList<Point>(points);
-        if (route.getPoints().isEmpty())
-            return result;
-        Point start = route.getPoints().get(0);
-        Collections.sort(result, byDistanceFrom(start));
-        return result;
+    private void sortByProjectionDistance(final Point segmentStart, final Point segmentFinish, List<Point> points) {
+        Collections.sort(points, byDistanceOfProjectionOn(segmentStart, segmentFinish));
     }
 
-    private Comparator<Point> byDistanceFrom(Point p) {
-        return new DistanceComparator(p);
+    private Comparator<Point> byDistanceOfProjectionOn(Point segmentStart, Point segmentFinish) {
+        return new ProjectionDistanceComparator(segmentStart, segmentFinish);
     }
 
-    private final static class DistanceComparator implements Comparator<Point> {
-        private final Point _start;
+    private final static class ProjectionDistanceComparator implements Comparator<Point> {
+        private final Point _segmentStart;
+        private final Point _segmentFinish;
 
-        public DistanceComparator(Point start) {
-            _start = start;
+        private ProjectionDistanceComparator(Point segmentStart, Point segmentFinish) {
+            _segmentStart = segmentStart;
+            _segmentFinish = segmentFinish;
         }
 
-        public int compare(Point p1, Point p2) {
-            return Double.compare(_start.distanceTo(p1), _start.distanceTo(p2));
+        public int compare(Point o1, Point o2) {
+            Point proj1 = Geometry.findProjectionOn(o1, _segmentStart, _segmentFinish);
+            Point proj2 = Geometry.findProjectionOn(o2, _segmentStart, _segmentFinish);
+            return Double.compare(Geometry.distanceBetween(_segmentStart, proj1),
+                    Geometry.distanceBetween(_segmentStart, proj2));
         }
     }
 }

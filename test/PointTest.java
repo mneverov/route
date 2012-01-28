@@ -56,6 +56,14 @@ public class PointTest extends TestCase {
         assertEquals(p3, p1.getPointByBearingAndDistance(bearing, distance));
     }
 
+    public void test_distance_to_projection() {
+        Point p1 = createPoint(0, 0);
+        Point p2 = createPoint(0, 10);
+        Point p3 = createPoint(0, 5);
+        double distance = p1.distanceTo(p3);
+        assertEquals(distance, p1.distanceTo(Geometry.findProjectionOn(p3, p1, p2)));
+    }
+
     private Point createPoint(double latitude, double longitude) {
         return new Point(pointId++, latitude, longitude);
     }

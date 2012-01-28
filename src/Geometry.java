@@ -47,4 +47,13 @@ public final class Geometry {
         double roundLong = ((int)(toDegrees(longitude) * 1000000))/ 1000000.0;
         return new Point(roundLat, roundLong);
     }
+
+    public static Point findProjectionOn(Point p, Point p1, Point p2) {
+        Line l = new Line(p1, p2);
+        Line perpLine = l.getPerpendicularLine(p);
+        double zn = l.getA() * perpLine.getB() - l.getB() * perpLine.getA();
+        double longitude = (l.getB() * perpLine.getC() - l.getC() * perpLine.getB()) / zn;
+        double latitude = (l.getC() * perpLine.getA() - l.getA() * perpLine.getC()) / zn;
+        return new Point(latitude, longitude);
+    }
 }
