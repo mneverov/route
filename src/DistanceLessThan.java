@@ -16,11 +16,14 @@ public class DistanceLessThan implements Predicate<Point> {
         _p2 = p2;
         _width = width;
 
+        double bearing = Geometry.getBearingTo(p1, p2);
         Line line = new Line(p1, p2);
-        _perpendicularLine1 = line.getPerpendicularLine(p1);
-        _perpendicularLine2 = line.getPerpendicularLine(p2);
-        Point parPoint1 = Geometry.getPointByBearingAndDistance(p1, Geometry.getBearingTo(p1, p2) - 90, width);
-        Point parPoint2 = Geometry.getPointByBearingAndDistance(p1, Geometry.getBearingTo(p1, p2) + 90, width);
+        Point perPoint1 = Geometry.getPointByBearingAndDistance(p1, bearing - 180, width);
+        Point perPoint2 = Geometry.getPointByBearingAndDistance(p2, bearing, width);
+        _perpendicularLine1 = line.getPerpendicularLine(perPoint1);
+        _perpendicularLine2 = line.getPerpendicularLine(perPoint2);
+        Point parPoint1 = Geometry.getPointByBearingAndDistance(p1, bearing - 90, width);
+        Point parPoint2 = Geometry.getPointByBearingAndDistance(p1, bearing + 90, width);
         _parallelLine1 = line.getParallelLine(parPoint1);
         _parallelLine2 = line.getParallelLine(parPoint2);
     }
