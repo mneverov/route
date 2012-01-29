@@ -18,53 +18,47 @@ public class PointTest extends TestCase {
         assertEquals(point.getId(), 1);
     }
 
-//    public void test_distance() {
-//        drgn.data.routes.model.Point p1 = new drgn.data.routes.model.Point(1, 82, 10);
-//        drgn.data.routes.model.Point p2 = new drgn.data.routes.model.Point(2, 81, 10);
-//        assertEquals(111195, Math.round(p1.distanceTo(p2)));
-//    }
-
     public void test_is_point_on_line() {
         Point point = createPoint(0, 0);
         Line line = new Line(createPoint(-10, 0), createPoint(10, 0));
-        assertTrue(point.isOnLine(line));
+        assertTrue(Geometry.isOnLine(point, line));
     }
 
     public void test_is_point_between_lines() {
         Point point = createPoint(0, 0);
         Line line1 = new Line(createPoint(5, 0), createPoint(5, 5));
         Line line2 = new Line(createPoint(-5, 0), createPoint(-5, 5));
-        assertTrue(point.isBetween(line1, line2));
+        assertTrue(Geometry.isBetween(point, line1, line2));
     }
 
     public void test_get_perp_line() {
         Point point = createPoint(0, 0);
         Line line = new Line(point, createPoint(10, 0));
         Line linePerp = line.getPerpendicularLine(point);
-        assertTrue(createPoint(0, 10).isOnLine(linePerp));
+        assertTrue(Geometry.isOnLine(createPoint(0, 10), linePerp));
     }
 
     public void test_get_bearing() {
         Point p1 = createPoint(0, 0);
         Point p2 = createPoint(0, 10);
-        assertEquals(90.0, p1.getBearingTo(p2));
+        assertEquals(90.0, Geometry.getBearingTo(p1, p2));
     }
 
     public void test_get_point_by_distance() {
         Point p1 = createPoint(0, 0);
         Point p2 = createPoint(0, 10);
         Point p3 = createPoint(10, 0);
-        double bearing = p1.getBearingTo(p3);
-        double distance = p1.distanceTo(p3);
-        assertEquals(p3, p1.getPointByBearingAndDistance(bearing, distance));
+        double bearing = Geometry.getBearingTo(p1, p3);
+        double distance = Geometry.distanceBetween(p1, p3);
+        assertEquals(p3, Geometry.getPointByBearingAndDistance(p1, bearing, distance));
     }
 
     public void test_distance_to_projection() {
         Point p1 = createPoint(0, 0);
         Point p2 = createPoint(0, 10);
         Point p3 = createPoint(0, 5);
-        double distance = p1.distanceTo(p3);
-        assertEquals(distance, p1.distanceTo(Geometry.findProjectionOn(p3, p1, p2)));
+        double distance = Geometry.distanceBetween(p1, p3);
+        assertEquals(distance, Geometry.distanceBetween(p1, Geometry.findProjectionOn(p3, p1, p2)));
     }
 
     private Point createPoint(double latitude, double longitude) {

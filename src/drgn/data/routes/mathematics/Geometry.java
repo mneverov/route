@@ -12,10 +12,7 @@ public final class Geometry {
     private Geometry(){}
 
     private final static int EARTH_RADIUS = 6371000;
-       /**
-        * distanceBetween() ���������� ������� ������������ ��� ���������� ���������� ����� �������
-        * ������ � ��������� ����������: http://gis-lab.info/qa/great-circles.html
-        */
+
     public static double distanceBetween(Point p1, Point p2) {
         double dLat = toRadians(p2.getLatitude() - p1.getLatitude());
         double dLon = toRadians(p2.getLongitude() - p1.getLongitude());
@@ -35,9 +32,6 @@ public final class Geometry {
         return y1 > p.getLatitude() && y2 < p.getLatitude() || y2 > p.getLatitude() && y1 < p.getLatitude();
     }
 
-    /**
-     * getBearingTo() ��������� ������ �� ���� ������. ����������� � getPointByBearingAndDistance()
-     */
     public static double getBearingTo(Point from, Point to) {
         double y = sin(toRadians(to.getLongitude() - from.getLongitude())) * cos(toRadians(to.getLatitude()));
         double x = cos(toRadians(from.getLatitude())) * sin(toRadians(to.getLatitude())) -
@@ -47,9 +41,6 @@ public final class Geometry {
         return normalizeBearing;
     }
 
-    /**
-     * getPointByBearingAndDistance() ������������ ��� ���������� �����, ��������� �� �������� ����������.
-     */
     public static Point getPointByBearingAndDistance(Point p, double bearing, double distance) {
         double latitude = asin(sin(toRadians(p.getLatitude())) * cos(distance / EARTH_RADIUS) +
                 cos(toRadians(p.getLatitude())) * sin(distance / EARTH_RADIUS) * cos(toRadians(bearing)));

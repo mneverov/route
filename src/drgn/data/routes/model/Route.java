@@ -3,6 +3,7 @@ package drgn.data.routes.model;
 import java.util.List;
 
 /**
+ *
  */
 public class Route {
     private final int _id;

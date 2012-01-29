@@ -28,8 +28,8 @@ public class PointFinderTest extends TestCase {
         PointFinder finder = createFinder(point);
         Route onePointRoute = createRoute(point);
         List<Point> pointsForRoute = finder.findPoints(onePointRoute, Integer.MAX_VALUE);
-        assertEquals(1, pointsForRoute.size());
-        assertTrue(pointsForRoute.contains(point));
+        assertEquals(0, pointsForRoute.size());
+        assertTrue(!pointsForRoute.contains(point));
     }
 
     public void test_one_point_out_of_route() {
@@ -37,16 +37,16 @@ public class PointFinderTest extends TestCase {
         PointFinder finder = createFinder(pointOutOfRoute);
         Route onePointRoute = createRoute(createPoint(latitude, longitude));
         List<Point> pointsForRoute = finder.findPoints(onePointRoute, Integer.MAX_VALUE);
-        assertEquals(1, pointsForRoute.size());
-        assertTrue(pointsForRoute.contains(pointOutOfRoute));
+        assertEquals(0, pointsForRoute.size());
+        assertTrue(!pointsForRoute.contains(pointOutOfRoute));
     }
 
     public void test_points_sorted() {
         Point point = createPoint(latitude, longitude);
-        Route route = createRoute(point);
+        Route route = createRoute(point, createPoint(latitude + 5, longitude +10));
         PointFinder pointFinder = createFinder(createPoint(latitude + 2, longitude + 2), createPoint(latitude + 1, longitude + 1));
         List<Point> result = pointFinder.findPoints(route, Integer.MAX_VALUE);
-        assertTrue(point.distanceTo(result.get(0)) < point.distanceTo(result.get(1)));
+        assertTrue(Geometry.distanceBetween(point, result.get(0)) < Geometry.distanceBetween(point, result.get(1)));
     }
 
     public void test_not_return_duplicate_points() {

@@ -33,6 +33,7 @@ public class DistanceLessThan  {
     }
 
     public boolean apply(Point p) {
-        return p.isBetween(_parallelLine1, _parallelLine2) && p.isBetween(_perpendicularLine1, _perpendicularLine2);
+        return Geometry.isBetween(p, _parallelLine1, _parallelLine2)
+                && Geometry.isBetween(p, _perpendicularLine1, _perpendicularLine2);
     }
 }

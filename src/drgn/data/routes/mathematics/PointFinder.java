@@ -6,11 +6,7 @@ import drgn.data.routes.model.Route;
 import java.util.*;
 
 /**
- * �������� ��������� ������ ���������� ����� ������ ��� ����� ��������. �������, ����������������� ������ ������,
- * ������������ ����� ������ � ������� �������, � ��� �� �������, ������������� ������ ������, ���������� �� ��������
- * ���������� �������������� ������� ������.
- * ��� �����, �������� � ��� ������� ��������� �������� �� ������� ��������. ����������� ����� �� ������� �������� ��
- * �������� �� ��������� ����� ������� ��������.
+ *
  */
 public class PointFinder {
 
@@ -29,22 +25,26 @@ public class PointFinder {
         if (points.isEmpty() || points.size() == 1)
             return Collections.emptyList();
 
-        Set<Point> pointsForRoute = new HashSet<Point>();
+//        Set<Point> pointsForRoute = new HashSet<Point>();
+        List<Point> pointsForRoute = new ArrayList<Point>();
         Point prevPoint = points.get(0);
         for (int i = 1; i < points.size(); i++) {
             Point curPoint = points.get(i);
             pointsForRoute.addAll(pointsForSegment(prevPoint, curPoint, width));
             prevPoint = curPoint;
         }
-        return new ArrayList<Point>(pointsForRoute);
+//        return new ArrayList<Point>(pointsForRoute);
+        return pointsForRoute;
     }
 
     private List<Point> pointsForSegment(Point segmentStart, Point segmentFinish, int width) {
         DistanceLessThan predicate = new DistanceLessThan(segmentStart, segmentFinish, width);
         List<Point> pointForSegment = new ArrayList<Point>();
         for (Point p : _points) {
-            if (predicate.apply(p))
+            if (!p.isOnRoute() && predicate.apply(p)) {
                 pointForSegment.add(p);
+                p.set_isOnRoute(true);
+            }
         }
         sortByProjectionDistance(segmentStart, segmentFinish, pointForSegment);
         return pointForSegment;
