@@ -1,3 +1,6 @@
+package drgn.data.routes.mathematics;
+
+import drgn.data.routes.model.Point;
 import junit.framework.TestCase;
 
 /**
@@ -16,8 +19,8 @@ public class PointTest extends TestCase {
     }
 
 //    public void test_distance() {
-//        Point p1 = new Point(1, 82, 10);
-//        Point p2 = new Point(2, 81, 10);
+//        drgn.data.routes.model.Point p1 = new drgn.data.routes.model.Point(1, 82, 10);
+//        drgn.data.routes.model.Point p2 = new drgn.data.routes.model.Point(2, 81, 10);
 //        assertEquals(111195, Math.round(p1.distanceTo(p2)));
 //    }
 

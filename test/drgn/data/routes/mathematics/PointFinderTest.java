@@ -1,3 +1,7 @@
+package drgn.data.routes.mathematics;
+
+import drgn.data.routes.model.Point;
+import drgn.data.routes.model.Route;
 import junit.framework.TestCase;
 
 import java.util.Arrays;
@@ -56,7 +60,7 @@ public class PointFinderTest extends TestCase {
         Point pointOutOfRoute = createPoint(latitude+2, longitude + 1);
         PointFinder finder = createFinder(pointOutOfRoute);
         Route route = createRoute(createPoint(latitude-10, longitude-10), createPoint(latitude+10, longitude+10));
-        List<Point> result = finder.findPoints(route, (int)Geometry.distanceBetween(pointOutOfRoute, createPoint(latitude-11, longitude-11)));
+        List<Point> result = finder.findPoints(route, (int) Geometry.distanceBetween(pointOutOfRoute, createPoint(latitude - 11, longitude - 11)));
         assertTrue(result.contains(pointOutOfRoute));
     }
 
@@ -65,7 +69,7 @@ public class PointFinderTest extends TestCase {
     }
 
     private PointFinder createFinder(Point... points) {
-        return new PointFinderImpl(Arrays.asList(points));
+        return new PointFinder(Arrays.asList(points));
     }
 
     private Point createPoint(double latitude, double longitude) {
