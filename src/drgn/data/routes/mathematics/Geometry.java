@@ -46,9 +46,9 @@ public final class Geometry {
                 cos(toRadians(p.getLatitude())) * sin(distance / EARTH_RADIUS) * cos(toRadians(bearing)));
         double longitude = toRadians(p.getLongitude()) +
                 atan2(sin(toRadians(bearing)) * sin(distance / EARTH_RADIUS) * cos(toRadians(p.getLatitude())),
-                        cos(distance / EARTH_RADIUS) - sin(toRadians(p.getLatitude())) * sin(toRadians(latitude)));
+                        cos(distance / EARTH_RADIUS) - sin(toRadians(p.getLatitude())) * sin(latitude));
         double roundLat = ((int)(toDegrees(latitude) * 1000000)) / 1000000.0;
-        double roundLong = ((int)(toDegrees(longitude) * 1000000))/ 1000000.0;
+        double roundLong = ((int)(toDegrees(longitude) * 1000000)) / 1000000.0;
         return new Point(roundLat, roundLong);
     }
 
