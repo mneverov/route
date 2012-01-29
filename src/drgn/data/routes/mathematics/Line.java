@@ -1,3 +1,7 @@
+package drgn.data.routes.mathematics;
+
+import drgn.data.routes.model.Point;
+
 /**
  *
  */

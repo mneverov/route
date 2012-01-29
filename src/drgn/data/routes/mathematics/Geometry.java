@@ -1,3 +1,7 @@
+package drgn.data.routes.mathematics;
+
+import drgn.data.routes.model.Point;
+
 import static java.lang.Math.*;
 
 /**
@@ -9,8 +13,8 @@ public final class Geometry {
 
     private final static int EARTH_RADIUS = 6371000;
        /**
-        * distanceBetween() использует формулу гаверсинусов для вычисления расстояния между точками
-        * пример и подробное объяснение: http://gis-lab.info/qa/great-circles.html
+        * distanceBetween() пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        * пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: http://gis-lab.info/qa/great-circles.html
         */
     public static double distanceBetween(Point p1, Point p2) {
         double dLat = toRadians(p2.getLatitude() - p1.getLatitude());
@@ -32,7 +36,7 @@ public final class Geometry {
     }
 
     /**
-     * getBearingTo() вычисляет азимут по двум точкам. Применяется в getPointByBearingAndDistance()
+     * getBearingTo() пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ getPointByBearingAndDistance()
      */
     public static double getBearingTo(Point from, Point to) {
         double y = sin(toRadians(to.getLongitude() - from.getLongitude())) * cos(toRadians(to.getLatitude()));
@@ -44,7 +48,7 @@ public final class Geometry {
     }
 
     /**
-     * getPointByBearingAndDistance() используется для нахождения точки, удаленной на заданное расстояние.
+     * getPointByBearingAndDistance() пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
      */
     public static Point getPointByBearingAndDistance(Point p, double bearing, double distance) {
         double latitude = asin(sin(toRadians(p.getLatitude())) * cos(distance / EARTH_RADIUS) +

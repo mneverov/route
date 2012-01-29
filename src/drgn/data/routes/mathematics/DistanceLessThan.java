@@ -1,7 +1,11 @@
+package drgn.data.routes.mathematics;
+
+import drgn.data.routes.model.Point;
+
 /**
  *
  */
-public class DistanceLessThan implements Predicate<Point> {
+public class DistanceLessThan  {
 
     private final Point _p1;
     private final Point _p2;

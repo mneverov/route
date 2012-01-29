@@ -1,3 +1,8 @@
+package drgn.data.routes.model;
+
+import drgn.data.routes.mathematics.Geometry;
+import drgn.data.routes.mathematics.Line;
+
 /**
  *
  *
