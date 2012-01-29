@@ -10,10 +10,10 @@ public class Point {
     private boolean _onRoute;
 
     public Point(int id, double latitude, double longitude){
-        if (latitude <= -90 || latitude >= 90) {
+        if (latitude < -90 || latitude > 90) {
             throw new IllegalArgumentException("latitude not in range -90..90");
         }
-        if (longitude <= -180 || longitude >= 180) {
+        if (longitude < -180 || longitude > 180) {
             throw new IllegalArgumentException("longitude not in range -180..180");
         }
         _latitude = latitude;

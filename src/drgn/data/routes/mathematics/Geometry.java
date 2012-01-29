@@ -27,9 +27,23 @@ public final class Geometry {
     }
 
     public static boolean isBetween(Point p, Line line1, Line line2) {
-        double y1 = 0 == line1.getB() ? line1.getC() : (-line1.getA() * p.getLongitude() - line1.getC()) / line1.getB();
-        double y2 = 0 == line2.getB() ? line2.getC() : (-line2.getA() * p.getLongitude() - line2.getC()) / line2.getB();
-        return y1 > p.getLatitude() && y2 < p.getLatitude() || y2 > p.getLatitude() && y1 < p.getLatitude();
+        double y1;
+        double y2;
+        double x1;
+        double x2;
+        if (0 == line1.getA()) {
+            y1 = - line1.getC() / line1.getB();
+            y2 = - line2.getC() / line2.getB();
+            return y1 >= p.getLatitude() && y2 <= p.getLatitude() || y2 >= p.getLatitude() && y1 <= p.getLatitude();
+        } else if (0 == line1.getB()) {
+            x1 = - line1.getC() / line1.getA();
+            x2 = - line2.getC() / line2.getA();
+            return x1 >= p.getLongitude() && x2 <= p.getLongitude() || x2 >= p.getLongitude() && x1 <= p.getLongitude();
+        }
+        y1 = (-line1.getA() * p.getLongitude() - line1.getC()) / line1.getB();
+        y2 = (-line2.getA() * p.getLongitude() - line2.getC()) / line2.getB();
+        return y1 >= p.getLatitude() && y2 <= p.getLatitude() || y2 >= p.getLatitude() && y1 <= p.getLatitude();
+
     }
 
     public static double getBearingTo(Point from, Point to) {

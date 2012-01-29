@@ -36,10 +36,10 @@ public class Line {
     }
 
     public Line getParallelLine(Point point) {
-        return new Line(_a, _b, -(_a * point.getLongitude() + _b * point.getLatitude()));
+        return new Line(_a, _b, -(_a *point.getLongitude() + _b * point.getLatitude()));
     }
 
     public Line getPerpendicularLine(Point point) {
-        return new Line(_b, -_a, _a * point.getLatitude() - _b * point.getLongitude());
+        return new Line(-_b, _a, _b * point.getLongitude() - _a * point.getLatitude());
     }
 }
