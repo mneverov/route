@@ -7,7 +7,8 @@ public class Point {
     private final int _id;
     private final double _latitude;
     private final double _longitude;
-    private boolean _onRoute;
+
+    private double _length;
 
     public Point(int id, double latitude, double longitude){
         if (latitude < -90 || latitude > 90) {
@@ -19,7 +20,7 @@ public class Point {
         _latitude = latitude;
         _longitude = longitude;
         _id = id;
-        _onRoute = false;
+        _length = -1;
     }
 
     public Point(double latitude, double longitude) {
@@ -38,12 +39,12 @@ public class Point {
         return _longitude;
     }
 
-    public boolean isOnRoute() {
-        return _onRoute;
+    public double get_length() {
+        return _length;
     }
 
-    public void set_isOnRoute(boolean onRoute) {
-        _onRoute = onRoute;
+    public void set_length(double length) {
+        _length = length;
     }
 
     @Override

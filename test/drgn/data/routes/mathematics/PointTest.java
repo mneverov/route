@@ -26,16 +26,17 @@ public class PointTest extends TestCase {
 
     public void test_is_point_between_lines() {
         Point point = createPoint(0, 0);
-        Line line1 = new Line(createPoint(5, 0), createPoint(5, 5));
-        Line line2 = new Line(createPoint(-5, 0), createPoint(-5, 5));
+        Line line1 = new Line(createPoint(5, 5), createPoint(5, -5));
+        Line line2 = new Line(createPoint(5, -5), createPoint(-5, -5));
         assertTrue(Geometry.isBetween(point, line1, line2));
     }
 
     public void test_get_perp_line() {
         Point point = createPoint(0, 0);
-        Line line = new Line(point, createPoint(10, 0));
+        Line line = new Line(point, createPoint(10, 10));
         Line linePerp = line.getPerpendicularLine(point);
-        assertTrue(Geometry.isOnLine(createPoint(0, 10), linePerp));
+        assertTrue(Geometry.isOnLine(createPoint(-5, 5), linePerp));
+        assertTrue(Geometry.isOnLine(createPoint(5, -5), linePerp));
     }
 
     public void test_get_bearing() {
@@ -59,6 +60,14 @@ public class PointTest extends TestCase {
         Point p3 = createPoint(0, 5);
         double distance = Geometry.distanceBetween(p1, p3);
         assertEquals(distance, Geometry.distanceBetween(p1, Geometry.findProjectionOn(p3, p1, p2)));
+    }
+
+    public void test_find_north_projection() {
+        Point p1 = createPoint(0, 0);
+        Point p2 = createPoint(-10, 0);
+        Point p3 = createPoint(-5, -5);
+        Point p4 = createPoint(-5, 0);
+        assertEquals(p4, Geometry.findProjectionOn(p3, p1, p2));
     }
 
     private Point createPoint(double latitude, double longitude) {

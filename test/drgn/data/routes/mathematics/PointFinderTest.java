@@ -64,6 +64,16 @@ public class PointFinderTest extends TestCase {
         assertTrue(result.contains(pointOutOfRoute));
     }
 
+    public void test_find_south_point() {
+        Point p1 = createPoint(0, 0);
+        Point p2 = createPoint(-10, 0);
+        Point p3 = createPoint(-5, -5);
+        PointFinder finder = createFinder(p3);
+        Route route = createRoute(p1, p2);
+        List<Point> result = finder.findPoints(route, Integer.MAX_VALUE);
+        assertTrue(result.contains(p3));
+    }
+
     private Route createRoute(Point... points) {
         return new Route(routeId++, Arrays.asList(points));
     }

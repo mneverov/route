@@ -25,7 +25,6 @@ public class PointFinder {
         if (points.isEmpty() || points.size() == 1)
             return Collections.emptyList();
 
-//        Set<Point> pointsForRoute = new HashSet<Point>();
         List<Point> pointsForRoute = new ArrayList<Point>();
         Point prevPoint = points.get(0);
         for (int i = 1; i < points.size(); i++) {
@@ -33,7 +32,6 @@ public class PointFinder {
             pointsForRoute.addAll(pointsForSegment(prevPoint, curPoint, width));
             prevPoint = curPoint;
         }
-//        return new ArrayList<Point>(pointsForRoute);
         return pointsForRoute;
     }
 
@@ -41,9 +39,9 @@ public class PointFinder {
         DistanceLessThan predicate = new DistanceLessThan(segmentStart, segmentFinish, width);
         List<Point> pointForSegment = new ArrayList<Point>();
         for (Point p : _points) {
-            if (!p.isOnRoute() && predicate.apply(p)) {
+            if (/*!p.isOnRoute()*/p.get_length() < 0 && predicate.apply(p)) {
                 pointForSegment.add(p);
-                p.set_isOnRoute(true);
+//                p.set_isOnRoute(true);
             }
         }
         sortByProjectionDistance(segmentStart, segmentFinish, pointForSegment);
@@ -68,10 +66,11 @@ public class PointFinder {
         }
 
         public int compare(Point o1, Point o2) {
-            Point proj1 = Geometry.findProjectionOn(o1, _segmentStart, _segmentFinish);
-            Point proj2 = Geometry.findProjectionOn(o2, _segmentStart, _segmentFinish);
-            return Double.compare(Geometry.distanceBetween(_segmentStart, proj1),
-                    Geometry.distanceBetween(_segmentStart, proj2));
+//            Point proj1 = Geometry.findProjectionOn(o1, _segmentStart, _segmentFinish);
+//            Point proj2 = Geometry.findProjectionOn(o2, _segmentStart, _segmentFinish);
+//            return Double.compare(Geometry.distanceBetween(_segmentStart, proj1),
+//                    Geometry.distanceBetween(_segmentStart, proj2));
+            return Double.compare(o1.get_length(), o2.get_length());
         }
     }
 }
