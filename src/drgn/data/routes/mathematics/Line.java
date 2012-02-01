@@ -40,6 +40,8 @@ public class Line {
     }
 
     public Line getPerpendicularLine(Point point) {
-        return new Line(-_b, _a, _b * point.getLongitude() - _a * point.getLatitude());
+        double b = Geometry.getBearingTo(this);
+        Point p = Geometry.getPointByBearingAndDistance(point, b+90, 10);
+        return new Line(point, p);
     }
 }

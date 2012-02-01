@@ -55,6 +55,17 @@ public final class Geometry {
         return normalizeBearing;
     }
 
+    public static double getBearingTo(Line l) {
+        if (0 == l.getB()) {
+            return 0;
+        } else if (0 == l.getA()) {
+            return 90;
+        }
+        double b = atan(-l.getA() / l.getB());
+        double bearing = 90 - toDegrees(b);
+        return bearing;
+    }
+
     public static Point getPointByBearingAndDistance(Point p, double bearing, double distance) {
         double latitude = asin(sin(toRadians(p.getLatitude())) * cos(distance / EARTH_RADIUS) +
                 cos(toRadians(p.getLatitude())) * sin(distance / EARTH_RADIUS) * cos(toRadians(bearing)));
