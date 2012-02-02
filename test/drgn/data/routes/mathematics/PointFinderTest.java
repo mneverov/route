@@ -63,6 +63,34 @@ public class PointFinderTest extends TestCase {
         List<Point> result = finder.findPoints(route, (int) Geometry.distanceBetween(pointOutOfRoute, createPoint(latitude - 11, longitude - 11)));
         assertTrue(result.contains(pointOutOfRoute));
     }
+    
+    public void test_find_point_on_width() {
+        int width = 1234;
+        Point p1 = createPoint(0, 39);
+        Point p2 = createPoint(23, 16);
+        Line l = new Line(p1, p2);
+        double b = Geometry.getBearingTo(l);
+        Point back = Geometry.getPointByBearingAndDistance(p1, (b + 180)%360, width);
+        Point forward = Geometry.getPointByBearingAndDistance(p2, b, width);
+        Line plBack = l.getPerpendicularLine(back);
+        Line plForward = l.getPerpendicularLine(forward);
+
+        Point pp1 = Geometry.getPointByBearingAndDistance(back, b + 90, width);
+        Point pp2 = Geometry.getPointByBearingAndDistance(back, b - 90, width);
+        Point pp3 = Geometry.getPointByBearingAndDistance(forward, b + 90, width);
+        Point pp4 = Geometry.getPointByBearingAndDistance(forward, b - 90, width);
+        PointFinder finder = createFinder(pp1, pp2, pp3, pp4);
+        Route r = createRoute(p1, p2);
+        List<Point> result = finder.findPoints(r, width);
+        assertTrue(result.contains(pp1));
+        assertTrue(result.contains(pp2));
+        assertTrue(result.contains(pp3));
+        assertTrue(result.contains(pp4));
+        assertTrue(Geometry.isOnLine(pp1, plBack));
+        assertTrue(Geometry.isOnLine(pp2, plBack));
+        assertTrue(Geometry.isOnLine(pp3, plForward));
+        assertTrue(Geometry.isOnLine(pp4, plForward));
+    }
 
     private Route createRoute(Point... points) {
         return new Route(routeId++, Arrays.asList(points));

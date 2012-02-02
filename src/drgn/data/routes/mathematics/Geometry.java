@@ -23,7 +23,7 @@ public final class Geometry {
     }
 
     public static boolean isOnLine(Point p, Line line) {
-        return (line.getA() * p.getLongitude() + line.getB() * p.getLatitude() + line.getC()) == 0;
+        return (line.getA() * p.getLongitude() + line.getB() * p.getLatitude() + line.getC()) <= 0.00001;
     }
 
     public static boolean isBetween(Point p, Line line1, Line line2) {
@@ -43,7 +43,6 @@ public final class Geometry {
         y1 = (-line1.getA() * p.getLongitude() - line1.getC()) / line1.getB();
         y2 = (-line2.getA() * p.getLongitude() - line2.getC()) / line2.getB();
         return y1 >= p.getLatitude() && y2 <= p.getLatitude() || y2 >= p.getLatitude() && y1 <= p.getLatitude();
-
     }
 
     public static double getBearingTo(Point from, Point to) {
@@ -53,6 +52,11 @@ public final class Geometry {
         double bearing = toDegrees(atan2(y, x));
         double normalizeBearing = (bearing + 360) % 360;
         return normalizeBearing;
+    }
+
+
+    public static double getBearingTo(Line l) {
+        return getBearingTo(l.get_p1(), l.get_p2());
     }
 
     public static Point getPointByBearingAndDistance(Point p, double bearing, double distance) {

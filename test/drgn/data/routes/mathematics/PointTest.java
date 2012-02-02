@@ -44,6 +44,15 @@ public class PointTest extends TestCase {
         assertEquals(90.0, Geometry.getBearingTo(p1, p2));
     }
 
+    public void test_bearing_by_line_and_by_point_are_same() {
+        Point p1 = createPoint(3, 43);
+        Point p2 = createPoint(34, 23);
+        Line l = new Line(p1, p2);
+        double bp = Geometry.getBearingTo(p1, p2);
+        double bl = Geometry.getBearingTo(l);
+        assertEquals(bp, bl);
+    }
+
     public void test_get_point_by_distance() {
         Point p1 = createPoint(0, 0);
         Point p2 = createPoint(0, 10);
