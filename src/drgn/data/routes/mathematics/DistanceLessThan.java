@@ -22,12 +22,12 @@ public class DistanceLessThan  {
 
         double bearing = Geometry.getBearingTo(p1, p2);
         Line line = new Line(p1, p2);
-        Point perPoint1 = Geometry.getPointByBearingAndDistance(p1, bearing - 180, width);
-        Point perPoint2 = Geometry.getPointByBearingAndDistance(p2, bearing, width);
+        Point perPoint1 = Geometry.getPointByBearingAndDistance(p1, bearing - 180, width + 80);        //80 - error of calculation  (in meters)
+        Point perPoint2 = Geometry.getPointByBearingAndDistance(p2, bearing, width + 80);
         _perpendicularLine1 = line.getPerpendicularLine(perPoint1);
         _perpendicularLine2 = line.getPerpendicularLine(perPoint2);
-        Point parPoint1 = Geometry.getPointByBearingAndDistance(p1, bearing - 90, width);
-        Point parPoint2 = Geometry.getPointByBearingAndDistance(p1, bearing + 90, width);
+        Point parPoint1 = Geometry.getPointByBearingAndDistance(p1, bearing - 90, width + 80);
+        Point parPoint2 = Geometry.getPointByBearingAndDistance(p1, bearing + 90, width + 80);
         _parallelLine1 = line.getParallelLine(parPoint1);
         _parallelLine2 = line.getParallelLine(parPoint2);
     }
