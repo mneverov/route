@@ -54,7 +54,6 @@ public final class Geometry {
         return normalizeBearing;
     }
 
-
     public static double getBearingTo(Line l) {
         return getBearingTo(l.get_p1(), l.get_p2());
     }
